@@ -36,8 +36,8 @@ class TOONTANKS_API ATank : public ABasePawn {
   virtual void Tick(float DeltaTime) override;
 
   void Move(float Value);
-  void Turn(float Value);
-  void TurnCamera(float Value);
+  void BaseTurn(float Value);
+  void TurnCameraLeftRight(float Value);
 
   UPROPERTY(EditAnywhere)
   USpringArmComponent* SpringArm{nullptr};

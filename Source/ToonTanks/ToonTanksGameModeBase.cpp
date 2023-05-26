@@ -55,6 +55,7 @@ void AToonTanksGameModeBase::BeginPlay() {
 
   ToonTanksPlayerController = Cast<AToonTanksPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
   if (ToonTanksPlayerController) {
+    ToonTanksPlayerController->bShowMouseCursor = false;
     ToonTanksPlayerController->SetPlayerEnabledState(false);
 
     // TODO(alambin): uncomment

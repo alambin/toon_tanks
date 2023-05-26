@@ -1,0 +1,57 @@
+{
+	"folders": [
+		{
+			"name": "ToonTanks",
+			"path": "."
+		},
+		{
+			"name": "UE5",
+			"path": "D:\\Temp\\UE\\UEEngineSrc\\UnrealEngine"
+		}
+	],
+	"settings": {
+    "typescript.tsc.autoDetect": "off",
+    "files.associations": {
+      "*.rh": "cpp",
+      "__config": "cpp",
+      "__nullptr": "cpp",
+      "array": "cpp",
+      "bitset": "cpp",
+      "deque": "cpp",
+      "initializer_list": "cpp",
+      "list": "cpp",
+      "queue": "cpp",
+      "random": "cpp",
+      "ranges": "cpp",
+      "regex": "cpp",
+      "span": "cpp",
+      "stack": "cpp",
+      "type_traits": "cpp",
+      "valarray": "cpp",
+      "vector": "cpp",
+      "xhash": "cpp",
+      "xstring": "cpp",
+      "xtree": "cpp",
+      "xutility": "cpp",
+      "*.ipp": "cpp",
+      "*.inc": "cpp",
+      "__hash_table": "cpp",
+      "__split_buffer": "cpp",
+      "__tree": "cpp",
+      "hash_map": "cpp",
+      "map": "cpp",
+      "set": "cpp",
+      "string": "cpp",
+      "string_view": "cpp",
+      "unordered_map": "cpp",
+      "unordered_set": "cpp",
+      "tuple": "cpp"
+    }
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"ms-dotnettools.csharp"
+		]
+	}
+}

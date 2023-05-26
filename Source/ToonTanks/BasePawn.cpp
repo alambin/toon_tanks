@@ -45,7 +45,7 @@ void ABasePawn::RotateTurret(FVector lookAtTarget) {
   ToTargetRotation.Pitch = 0;
   ToTargetRotation.Roll = 0;
 
-  constexpr float turretRotationSpeed = 25.;
+  constexpr float turretRotationSpeed = 25.0;
   TurretMesh->SetWorldRotation(FMath::RInterpTo(TurretMesh->GetComponentRotation(), ToTargetRotation,
                                                 UGameplayStatics::GetWorldDeltaSeconds(this), turretRotationSpeed));
 }

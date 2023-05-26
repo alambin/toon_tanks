@@ -34,8 +34,8 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
   Super::SetupPlayerInputComponent(PlayerInputComponent);
 
   PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ATank::Move);
-  PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATank::Turn);
-  PlayerInputComponent->BindAxis(TEXT("RotateCamera"), this, &ATank::TurnCamera);
+  PlayerInputComponent->BindAxis(TEXT("BaseTurn"), this, &ATank::BaseTurn);
+  PlayerInputComponent->BindAxis(TEXT("RotateCameraLeftRight"), this, &ATank::TurnCameraLeftRight);
 
   PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATank::Fire);
 }
@@ -44,13 +44,22 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
 void ATank::Tick(float DeltaTime) {
   Super::Tick(DeltaTime);
 
-  if (PlayerController) {
-    FHitResult hitResult;
-    if (PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult)) {
-      // DrawDebugSphere(GetWorld(), hitResult.ImpactPoint, 20, 12, FColor::Red, false, -1);
-      RotateTurret(hitResult.ImpactPoint);
-    }
-  }
+  // Rotate turret
+  // NOTE: Do NOT take rotation of spring arm, because camera is lagging behind real rotation of sprint arm
+  auto cameraWorldYaw = PlayerController->PlayerCameraManager->GetCameraRotation().Yaw;
+  auto turretWorldRotation = TurretMesh->GetComponentRotation();
+  turretWorldRotation.Yaw = cameraWorldYaw;
+  TurretMesh->SetWorldRotation(turretWorldRotation, true);
+
+  // NOTE: This code is from original tutorial. It shows how to get point in the world, where cursor is currently
+  // pointing to
+  // if (PlayerController) {
+  //   FHitResult hitResult;
+  //   if (PlayerController->GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility, false, hitResult)) {
+  //     // DrawDebugSphere(GetWorld(), hitResult.ImpactPoint, 20, 12, FColor::Red, false, -1);
+  //     RotateTurret(hitResult.ImpactPoint);
+  //   }
+  // }
 }
 
 void ATank::Move(float Value) {
@@ -58,36 +67,19 @@ void ATank::Move(float Value) {
   AddActorLocalOffset({Value * Speed * deltaTime, 0, 0}, true);
 }
 
-void ATank::Turn(float Value) {
+void ATank::BaseTurn(float Value) {
   auto deltaTime = UGameplayStatics::GetWorldDeltaSeconds(this);
 
-  // TODO(alambin): implement normal camera behavior:
-  // 1. There should be no limits in rotation from left to right
-  // 2. Camera should always look in the same direction as turret ? May be only when RMB is pressed?
+  auto turretWorldRotation = TurretMesh->GetComponentRotation();
+  auto springArmWorldRotation = SpringArm->GetComponentRotation();
 
   AddActorLocalRotation({0, Value * RotationSpeed * deltaTime, 0}, true);
-  if (PlayerController->IsInputKeyDown(EKeys::RightMouseButton)) {
-    SpringArm->AddRelativeRotation({0, -Value * RotationSpeed * deltaTime, 0}, true);
-  }
+
+  // Do not change rotation of other components - it should depend not on Actor rotation, but only on mouse position
+  TurretMesh->SetWorldRotation(turretWorldRotation);
+  SpringArm->SetWorldRotation(springArmWorldRotation);
 }
 
-void ATank::TurnCamera(float Value) {
-  auto deltaTime = UGameplayStatics::GetWorldDeltaSeconds(this);
-
-  UE_LOG(LogTemp, Display, TEXT("LAMBIN: ATank::TurnCamera() 1"));
-
-  static bool rmbPressed{false};
-  if (PlayerController->IsInputKeyDown(EKeys::RightMouseButton)) {
-    rmbPressed = true;
-    UE_LOG(LogTemp, Display, TEXT("LAMBIN: ATank::TurnCamera() RMB"));
-    SpringArm->AddRelativeRotation({0, Value * RotationSpeed * deltaTime, 0}, true);
-  } else {
-    if (rmbPressed) {
-      // We just released RMB
-      auto rotation = SpringArm->GetRelativeRotation();
-      rotation.Yaw = 0;
-      SpringArm->SetRelativeRotation(rotation, true);
-    }
-    rmbPressed = false;
-  }
+void ATank::TurnCameraLeftRight(float Value) {
+  SpringArm->AddRelativeRotation({0, Value * RotationSpeed * UGameplayStatics::GetWorldDeltaSeconds(this), 0}, true);
 }
