@@ -19,7 +19,6 @@ void UHealthComponent::BeginPlay() {
   Super::BeginPlay();
 
   Health = MaxHealth;
-  // GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);
   GetOwner()->OnTakePointDamage.AddDynamic(this, &UHealthComponent::PointDamageTaken);
 }
 
@@ -35,17 +34,12 @@ void UHealthComponent::PointDamageTaken(AActor* DamagedActor, float Damage, clas
                                         FVector HitLocation, class UPrimitiveComponent* FHitComponent, FName BoneName,
                                         FVector ShotFromDirection, const class UDamageType* DamageType,
                                         AActor* DamageCauser) {
-  // void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType,
-  //                                    AController* InstigatedBy, AActor* DamageCauser) {
-  UE_LOG(LogTemp, Display, TEXT("LAMBIN: UHealthComponent::DamageTaken() 1 Damage = '%f'"), Damage);
-
   Health -= Damage;
   if (Health < 0) {
     Health = 0;
   }
 
   if (FMath::IsNearlyZero(Health)) {
-    UE_LOG(LogTemp, Display, TEXT("LAMBIN: UHealthComponent::DamageTaken() 2"));
     Cast<AToonTanksGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))
         ->ActorKilled(DamagedActor, HitLocation, ShotFromDirection);
   }

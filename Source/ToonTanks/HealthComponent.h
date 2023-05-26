@@ -28,8 +28,6 @@ class TOONTANKS_API UHealthComponent : public UActorComponent {
 
  private:
   UFUNCTION()
-  // void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy,
-  //                  AActor* DamageCauser);
   void PointDamageTaken(AActor* DamagedActor, float Damage, class AController* InstigatedBy, FVector HitLocation,
                         class UPrimitiveComponent* FHitComponent, FName BoneName, FVector ShotFromDirection,
                         const class UDamageType* DamageType, AActor* DamageCauser);

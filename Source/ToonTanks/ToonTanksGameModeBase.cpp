@@ -55,7 +55,9 @@ void AToonTanksGameModeBase::BeginPlay() {
 
   ToonTanksPlayerController = Cast<AToonTanksPlayerController>(UGameplayStatics::GetPlayerController(this, 0));
   if (ToonTanksPlayerController) {
+    // Need to hide cursor, otherwise we can not capture mouse movements
     ToonTanksPlayerController->bShowMouseCursor = false;
+
     ToonTanksPlayerController->SetPlayerEnabledState(false);
 
     // TODO(alambin): uncomment
@@ -67,7 +69,7 @@ void AToonTanksGameModeBase::BeginPlay() {
   }
 }
 
-uint32_t AToonTanksGameModeBase::GetTargetTowerCount() {
+uint32_t AToonTanksGameModeBase::GetTargetTowerCount() const {
   TArray<AActor*> result;
   UGameplayStatics::GetAllActorsOfClass(this, ATower::StaticClass(), result);
   return result.Num();

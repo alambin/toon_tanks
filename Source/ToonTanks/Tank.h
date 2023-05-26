@@ -11,6 +11,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class UInputComponent;
 class APlayerController;
+struct FInputAxisKeyMapping;
 
 /**
  *
@@ -38,6 +39,8 @@ class TOONTANKS_API ATank : public ABasePawn {
   void Move(float Value);
   void BaseTurn(float Value);
   void TurnCameraLeftRight(float Value);
+  void LookUp(float Value);
+  void AlignTurretWithCameraYaw();
 
   UPROPERTY(EditAnywhere)
   USpringArmComponent* SpringArm{nullptr};
@@ -50,6 +53,8 @@ class TOONTANKS_API ATank : public ABasePawn {
   float RotationSpeed{150.0};
 
   APlayerController* PlayerController{nullptr};
+  float MinCameraPitch{-90.0};
+  TArray<FKey> MoveBackwardKeys;
 
   bool mIsAlive{true};
 };

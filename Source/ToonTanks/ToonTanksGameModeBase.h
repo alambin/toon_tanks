@@ -30,7 +30,7 @@ class TOONTANKS_API AToonTanksGameModeBase : public AGameModeBase {
   void GameOverBPEvent(bool IsWinGame);
 
  private:
-  uint32_t GetTargetTowerCount();
+  uint32_t GetTargetTowerCount() const;
 
   UPROPERTY(EditAnywhere)
   USoundBase* IntroSound{nullptr};
