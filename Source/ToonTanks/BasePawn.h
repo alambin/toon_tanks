@@ -19,11 +19,11 @@ class TOONTANKS_API ABasePawn : public APawn {
  public:
   // Sets default values for this pawn's properties
   ABasePawn();
+  void Fire();
   virtual void HandleDestruction();
 
  protected:
   void RotateTurret(FVector lookAtTarget);
-  void Fire();
 
   UPROPERTY(EditDefaultsOnly)
   TSubclassOf<AProjectile> ProjectileClass;

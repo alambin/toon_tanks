@@ -29,9 +29,6 @@ AProjectile::AProjectile()
   MovementComponent->ProjectileGravityScale = 0;
 }
 
-// Called every frame
-void AProjectile::Tick(float DeltaTime) { Super::Tick(DeltaTime); }
-
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay() {
   Super::BeginPlay();

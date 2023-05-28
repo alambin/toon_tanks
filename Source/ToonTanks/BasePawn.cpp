@@ -25,6 +25,15 @@ ABasePawn::ABasePawn()
   ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
+void ABasePawn::Fire() {
+  // DrawDebugSphere(GetWorld(), ProjectileSpawnPoint->GetComponentLocation(), 20, 12, FColor::Red, false, 3);
+  if (ProjectileClass != nullptr) {
+    auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(),
+                                                          ProjectileSpawnPoint->GetComponentRotation());
+    projectile->SetOwner(this);
+  }
+}
+
 void ABasePawn::HandleDestruction() {
   if (DeathSound) {
     UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
@@ -48,13 +57,4 @@ void ABasePawn::RotateTurret(FVector lookAtTarget) {
   constexpr float turretRotationSpeed = 25.0;
   TurretMesh->SetWorldRotation(FMath::RInterpTo(TurretMesh->GetComponentRotation(), ToTargetRotation,
                                                 UGameplayStatics::GetWorldDeltaSeconds(this), turretRotationSpeed));
-}
-
-void ABasePawn::Fire() {
-  // DrawDebugSphere(GetWorld(), ProjectileSpawnPoint->GetComponentLocation(), 20, 12, FColor::Red, false, 3);
-  if (ProjectileClass != nullptr) {
-    auto projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass, ProjectileSpawnPoint->GetComponentLocation(),
-                                                          ProjectileSpawnPoint->GetComponentRotation());
-    projectile->SetOwner(this);
-  }
 }

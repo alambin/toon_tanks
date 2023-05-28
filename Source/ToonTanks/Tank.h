@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <optional>
+
 #include "BasePawn.h"
 #include "CoreMinimal.h"
 // This file should always be included last - rule of UE
@@ -40,7 +42,9 @@ class TOONTANKS_API ATank : public ABasePawn {
   void BaseTurn(float Value);
   void TurnCameraLeftRight(float Value);
   void LookUp(float Value);
-  void AlignTurretWithCameraYaw();
+  void AlignTurretYawWithCamera();
+  void AlignTurretPitchWithTarget();
+  std::optional<FHitResult> GetHitResultAtScreenCenter() const;
 
   UPROPERTY(EditAnywhere)
   USpringArmComponent* SpringArm{nullptr};
