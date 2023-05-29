@@ -4,6 +4,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "ToonTanksGameModeBase.h"
+#include "Components/WidgetComponent.h"
 
 // Called when the game starts
 void UHealthComponent::BeginPlay() {
@@ -25,5 +26,12 @@ void UHealthComponent::PointDamageTaken(AActor* DamagedActor, float Damage, clas
   if (FMath::IsNearlyZero(Health)) {
     Cast<AToonTanksGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))
         ->ActorKilled(DamagedActor, HitLocation, ShotFromDirection);
+  }
+
+  UWidgetComponent* HealthBarWidget = Cast<UWidgetComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("Health Bar")));
+  if (HealthBarWidget) {
+    UE_LOG(LogTemp, Display, TEXT("LAMBIN: UHealthComponent::PointDamageTaken() Health Bar component found)"));
+  } else {
+    UE_LOG(LogTemp, Display, TEXT("LAMBIN: UHealthComponent::PointDamageTaken() Health Bar component NOT found)"));
   }
 }

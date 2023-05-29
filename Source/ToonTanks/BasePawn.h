@@ -11,6 +11,8 @@ class UCapsuleComponent;
 class AProjectile;
 class USoundBase;
 class UCameraShakeBase;
+class UActorComponent;
+class UWidgetComponent;
 
 UCLASS()
 class TOONTANKS_API ABasePawn : public APawn {
@@ -25,17 +27,17 @@ class TOONTANKS_API ABasePawn : public APawn {
  protected:
   void RotateTurret(FVector lookAtTarget);
 
-  UPROPERTY(EditDefaultsOnly)
-  TSubclassOf<AProjectile> ProjectileClass;
-
-  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UPROPERTY(EditAnywhere)
   UStaticMeshComponent* BaseMesh{nullptr};
-  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UPROPERTY(EditAnywhere)
   UStaticMeshComponent* TurretMesh{nullptr};
-  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UPROPERTY(EditAnywhere)
   USceneComponent* ProjectileSpawnPoint{nullptr};
 
  private:
+  UPROPERTY(EditDefaultsOnly)
+  TSubclassOf<AProjectile> ProjectileClass;
+
   UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
   UCapsuleComponent* CapsuleComp{nullptr};
 
@@ -47,4 +49,9 @@ class TOONTANKS_API ABasePawn : public APawn {
 
   UPROPERTY(EditAnywhere)
   TSubclassOf<UCameraShakeBase> DeathCameraShakeClass;
+
+  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UActorComponent* HealthComponent{nullptr};
+  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UWidgetComponent* HealthBarWidget{nullptr};
 };

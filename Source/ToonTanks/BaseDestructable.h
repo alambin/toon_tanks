@@ -7,6 +7,10 @@
 // This file should always be included last - rule of UE
 #include "BaseDestructable.generated.h"
 
+class UActorComponent;
+class UWidgetComponent;
+class UGeometryCollectionComponent;
+
 UCLASS()
 class TOONTANKS_API ABaseDestructable : public AActor {
   GENERATED_BODY()
@@ -18,6 +22,13 @@ class TOONTANKS_API ABaseDestructable : public AActor {
 
   UFUNCTION(BlueprintImplementableEvent)
   void ApplyExplosionForceBPEvent(const FVector& HitLocation, const FVector& ShotFromDirection);
+
+  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UGeometryCollectionComponent* GeometryCollectionComponent{nullptr};
+  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UActorComponent* HealthComponent{nullptr};
+  UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+  UWidgetComponent* HealthBarWidget{nullptr};
 
  private:
   UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))

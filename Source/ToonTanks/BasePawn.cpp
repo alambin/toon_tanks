@@ -2,19 +2,23 @@
 
 #include "BasePawn.h"
 
+#include "Camera/CameraShakeBase.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 #include "DrawDebugHelpers.h"
+#include "HealthComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Projectile.h"
 #include "Sound/SoundBase.h"
-#include "Camera/CameraShakeBase.h"
 
 // Sets default values
 ABasePawn::ABasePawn()
-    : CapsuleComp{CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule collider"))},
-      BaseMesh{CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"))},
+    : BaseMesh{CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Base Mesh"))},
       TurretMesh{CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret Mesh"))},
-      ProjectileSpawnPoint{CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"))} {
+      ProjectileSpawnPoint{CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"))},
+      CapsuleComp{CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule collider"))},
+      HealthComponent{CreateDefaultSubobject<UHealthComponent>(TEXT("Health"))},
+      HealthBarWidget{CreateDefaultSubobject<UWidgetComponent>(TEXT("Health Bar"))} {
   // Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
   PrimaryActorTick.bCanEverTick = true;
 
@@ -23,6 +27,7 @@ ABasePawn::ABasePawn()
   // TurretMesh->SetupAttachment(BaseMesh);
   TurretMesh->SetupAttachment(CapsuleComp);
   ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+  HealthBarWidget->SetupAttachment(CapsuleComp);
 }
 
 void ABasePawn::Fire() {
@@ -44,7 +49,7 @@ void ABasePawn::HandleDestruction() {
   }
 
   if (DeathCameraShakeClass) {
-      GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(DeathCameraShakeClass);
+    GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(DeathCameraShakeClass);
   }
 }
 

@@ -51,9 +51,6 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
   UE_LOG(LogTemp, Display, TEXT("LAMBIN: AProjectile::OnHit() 1"));
 
   if (OtherActor && (OtherActor != this) && (OtherActor != owner)) {
-    // UGameplayStatics::ApplyDamage(OtherActor, Damage, owner->GetInstigatorController(), this,
-    //                               UDamageType::StaticClass());
-    
     UGameplayStatics::ApplyPointDamage(OtherActor, Damage, GetActorForwardVector(), Hit,
                                        owner->GetInstigatorController(), this, UDamageType::StaticClass());
     if (HitSound) {
