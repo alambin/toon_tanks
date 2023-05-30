@@ -2,16 +2,20 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/ProgressBar.h"
+#include "CoreMinimal.h"
+// This file should always be included last - rule of UE
 #include "HealthWidget.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class TOONTANKS_API UHealthWidget : public UUserWidget
-{
-	GENERATED_BODY()
-	
+class TOONTANKS_API UHealthWidget : public UUserWidget {
+  GENERATED_BODY()
+
+ public:
+  UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (BindWidget))
+  class UProgressBar* HealthProgressBar;
 };

@@ -53,6 +53,13 @@ void ABasePawn::HandleDestruction() {
   }
 }
 
+// Called when the game starts or when spawned
+void ABasePawn::BeginPlay() {
+  Super::BeginPlay();
+  HealthBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
+  HealthBarWidget->SetVisibility(false);
+}
+
 void ABasePawn::RotateTurret(FVector lookAtTarget) {
   auto ToTarget = lookAtTarget - TurretMesh->GetComponentLocation();
   auto ToTargetRotation = ToTarget.Rotation();

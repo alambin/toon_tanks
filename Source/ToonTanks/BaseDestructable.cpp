@@ -23,3 +23,10 @@ void ABaseDestructable::HandleDestruction(FVector HitLocation, FVector ShotFromD
   // Destroy() is called in  Blueprint
   // Destroy();
 }
+
+// Called when the game starts or when spawned
+void ABaseDestructable::BeginPlay() {
+  Super::BeginPlay();
+  HealthBarWidget->SetWidgetSpace(EWidgetSpace::Screen);
+  HealthBarWidget->SetVisibility(false);
+}

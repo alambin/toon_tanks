@@ -2,9 +2,10 @@
 
 #include "HealthComponent.h"
 
+#include "Components/WidgetComponent.h"
+#include "HealthWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "ToonTanksGameModeBase.h"
-#include "Components/WidgetComponent.h"
 
 // Called when the game starts
 void UHealthComponent::BeginPlay() {
@@ -28,10 +29,15 @@ void UHealthComponent::PointDamageTaken(AActor* DamagedActor, float Damage, clas
         ->ActorKilled(DamagedActor, HitLocation, ShotFromDirection);
   }
 
-  UWidgetComponent* HealthBarWidget = Cast<UWidgetComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("Health Bar")));
-  if (HealthBarWidget) {
-    UE_LOG(LogTemp, Display, TEXT("LAMBIN: UHealthComponent::PointDamageTaken() Health Bar component found)"));
-  } else {
-    UE_LOG(LogTemp, Display, TEXT("LAMBIN: UHealthComponent::PointDamageTaken() Health Bar component NOT found)"));
+  // Check if owner has health bar widget component and if that component holds reference to health bar widget (ex.
+  // Tank doesn't have this widget, because it displays its health on HUD)
+  if (auto healthBarWidgetComponent =
+          Cast<UWidgetComponent>(GetOwner()->GetDefaultSubobjectByName(TEXT("Health Bar")))) {
+    if (auto widget = healthBarWidgetComponent->GetWidget()) {
+      if (auto healthWidget = Cast<UHealthWidget>(widget)) {
+        healthBarWidgetComponent->SetVisibility(!FMath::IsNearlyZero(Health));
+        healthWidget->HealthProgressBar->SetPercent(Health / MaxHealth);
+      }
+    }
   }
 }

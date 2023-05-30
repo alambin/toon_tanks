@@ -25,6 +25,9 @@ class TOONTANKS_API ABasePawn : public APawn {
   virtual void HandleDestruction();
 
  protected:
+ protected:
+  // Called when the game starts or when spawned
+  virtual void BeginPlay() override;
   void RotateTurret(FVector lookAtTarget);
 
   UPROPERTY(EditAnywhere)

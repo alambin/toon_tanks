@@ -30,6 +30,10 @@ class TOONTANKS_API ABaseDestructable : public AActor {
   UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
   UWidgetComponent* HealthBarWidget{nullptr};
 
+ protected:
+  // Called when the game starts or when spawned
+  virtual void BeginPlay() override;
+
  private:
   UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
   float ExplosionForce{4000.0};
